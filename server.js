@@ -62,7 +62,7 @@ router.get('/platforms', function(req, res) {
 // List instructions for a given platform
 router.get('/platforms/:platform', function(req, res) {
     Instruction.findAll({ where: { platform: req.params.platform }, attributes: ['mnem']}).then(function(instructions) {
-         if (instructions) {
+        if (instructions) {
             instructions = instructions.map(function(instruction){ return instruction.mnem; });
             res.json(instructions);
         } else {
@@ -74,7 +74,7 @@ router.get('/platforms/:platform', function(req, res) {
 // Find a set of instructions by 'search' in a given platform
 router.get('/platforms/:platform/search/:terms', function(req, res) {
     Instruction.findAll({ where: { platform: req.params.platform, mnem: { $like: '%' + req.params.terms + '%' }}, attributes: ['mnem']}).then(function(instructions) {
-         if (instructions) {
+        if (instructions) {
             instructions = instructions.map(function(instruction){ return instruction.mnem; });
             res.json(instructions);
         } else {
@@ -86,7 +86,7 @@ router.get('/platforms/:platform/search/:terms', function(req, res) {
 // List a given mnem for a given platform
 router.get('/platforms/:platform/:mnem', function(req, res) {
     Instruction.findOne({ where: { platform: req.params.platform, mnem: req.params.mnem }}).then(function(instruction) {
-         if (instruction) {
+        if (instruction) {
             res.json(instruction);
         } else {
             res.send(401).body("Could not find instruction");

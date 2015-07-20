@@ -1,3 +1,73 @@
+# nodeasm
+
+## About
+`nodeasm` is a nodeJS-driven API of the functionality provided by [cgasm](https://github.com/bnagy/cgasm). 
+
+## Installation
+
+Install node. On Mac just use good ol' `brew install node`, presto.
+
+Clone this repo, run `npm install` to get the prereqs, then `node server.js` and you are cooking.
+
+## Acknowledgements
+
+- nologic as I took all his cool data
+- @bnagy for the inspiration, and for telling me my ascii art sucks
+
+## Usage
+
+The base API is at `/api/platforms` and lists all available platforms in the DB (currently ASM, MIPS32 and x86). Expect output like:
+```
+[
+    "ARM",
+    "MIPS32",
+    "x86"
+]
+``` 
+
+Go to `/api/platform/:platform` to see a list of all instructions in the set. I.e. `/api/platform/ARM`:
+```
+[
+
+    "ADC",
+    "ADCS",
+    "ADD",
+    "ADDS",
+    "ADR",
+    "ADRP",
+    "AND",
+    "ANDS",
+    "ASR",
+    "ASRV",
+    "AT",
+    "B.cond",
+    "B",
+    "BFI",
+    "BFM",
+    .
+    . 
+    .
+]
+```
+
+Go to `/api/platform/:platform/:instruction` to see the details of the specific instruction. I.e. `/api/platform/ARM`:
+```
+{
+
+    "platform": "ARM",
+    "mnem": "ADCS",
+    "description": "Add with carry, setting the condition flags: Rd = Rn + Rm + C       (C6.6.2)\n\n\n\n\n  31 30 29 28 27 26 25 24 23 22 21 20             16 15 14 13 12 11 10 9              5 4              0\n  sf 0 1 1 1 0 1 0 0 0 0                   Rm         0 0 0 0 0 0              Rn              Rd\n     op S\n\n\n32-bit variant\n\nApplies when sf = 0.\n\nADCS <Wd>, <Wn>, <Wm>\n\n\n64-bit variant\n\nApplies when sf = 1.\n\nADCS <Xd>, <Xn>, <Xm>\n\n\nDecode for all variants of this encoding\n\n integer d = UInt(Rd);\n integer n = UInt(Rn);\n integer m = UInt(Rm);\n integer datasize = if sf == '1' then 64 else 32;\n boolean sub_op = (op == '1');\n boolean setflags = (S == '1');\n\n\nAssembler symbols\n\n<Wd>           Is the 32-bit name of the general-purpose destination register, encoded in the \"Rd\" field.\n\n<Wn>           Is the 32-bit name of the first general-purpose source register, encoded in the \"Rn\" field.\n\n<Wm>           Is the 32-bit name of the second general-purpose source register, encoded in the \"Rm\" field.\n\n<Xd>           Is the 64-bit name of the general-purpose destination register, encoded in the \"Rd\" field.\n\n<Xn>           Is the 64-bit name of the first general-purpose source register, encoded in the \"Rn\" field.\n\n<Xm>           Is the 64-bit name of the second general-purpose source register, encoded in the \"Rm\" field.\n\n\nOperation\n\n bits(datasize) result;\n bits(datasize) operand1 = X[n];\n bits(datasize) operand2 = X[m];\n bits(4) nzcv;\n\n if sub_op then\n     operand2 = NOT(operand2);\n\n (result, nzcv) = AddWithCarry(operand1, operand2, PSTATE.C);\n\n if setflags then\n     PSTATE.<N,Z,C,V> = nzcv;\n\n X[d] = result;"
+}
+```
+
+Finally, you can search for instructions by going to `/api/platform/:platform/search/:terms`. The search is essentially a `LIKE %terms%` lookup. It returns instruction names.
+
+## License
+
+I think I copied GPLv3, promise not to sue you.
+
+## BY THE POWER OF NODE
+
 <pre style="font: 2px/1px monospace;">                    .`         .                                                                                                                  
                    .````                                                                                                                          
                  ...````                                                                                                                          

@@ -1,9 +1,13 @@
 {
     "name": "nodeasm",
+    "version" : "0.1.0",
+    "description" : "ASM doco via REST API",
+    "license" : "GPL-3.0",
     "main": "server.js",
     "dependencies": {
         "express": "~4.13.0",
-        "sqlite3": "~3.9.0"
+        "sqlite3": "~3.0.9",
+	"sequelize": "~3.0.0"
     }
 }
 

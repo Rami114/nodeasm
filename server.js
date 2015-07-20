@@ -54,7 +54,7 @@ router.get('/platforms', function(req, res) {
             platforms = platforms.map(function(platform){ return platform.platform; });
             res.json(platforms);
         } else {
-            res.send(401, "No platforms found");
+            res.send(401).body("No platforms found");
         }
     });
 });
@@ -66,7 +66,7 @@ router.get('/platforms/:platform', function(req, res) {
             instructions = instructions.map(function(instruction){ return instruction.mnem; });
             res.json(instructions);
         } else {
-            res.send(401, "No instructions found in platform");
+            res.send(401).body("No instructions found in platform");
         }
     });   
 });
@@ -78,7 +78,7 @@ router.get('/platforms/:platform/search/:terms', function(req, res) {
             instructions = instructions.map(function(instruction){ return instruction.mnem; });
             res.json(instructions);
         } else {
-            res.send(401, "No instructions found in platform");
+            res.send(401).body("No instructions found in platform");
         }
     });   
 });
@@ -89,7 +89,7 @@ router.get('/platforms/:platform/:mnem', function(req, res) {
          if (instruction) {
             res.json(instruction);
         } else {
-            res.send(401, "Could not find instruction");
+            res.send(401).body("Could not find instruction");
         }
     });   
 });

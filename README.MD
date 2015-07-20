@@ -50,7 +50,7 @@ Go to `/api/platform/:platform` to see a list of all instructions in the set. I.
 ]
 ```
 
-Go to `/api/platform/:platform/:instruction` to see the details of the specific instruction. I.e. `/api/platform/ARM`:
+Go to `/api/platform/:platform/:instruction` to see the details of the specific instruction. I.e. `/api/platform/ARM/ADCS`:
 ```
 {
 
